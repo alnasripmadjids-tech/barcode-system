@@ -12,11 +12,16 @@ class Student extends Model
     protected $table = 'students';
 
     protected $fillable = [
-        'student_id',
-        'first_name',
-        'last_name',
+        'student_number',
+        'full_name',
         'course',
         'year_level',
         'barcode'
     ];
-}
+    public function attendances()
+    {   
+
+   return $this->hasMany(Attendance::class);
+      }
+  }    
+  
