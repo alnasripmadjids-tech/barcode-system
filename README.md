@@ -1,58 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SCT Barcode-Based Attendance System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based Barcode-Based Attendance Management System developed for
+Sulu College of Technology (SCT).
 
-## About Laravel
+The system is designed to help administrators manage student records,
+verify students through barcode scanning, record attendance, manage
+system users, and provide SMS notifications through a Huawei GSM modem.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The SCT Barcode-Based Attendance System automates the process of
+student identification and attendance recording using unique barcodes.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Instead of manually searching for student records, the system allows
+a student's barcode to be scanned and verified against the student
+database before recording attendance.
 
-## Learning Laravel
+## ✨ Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 👨‍🎓 Student Management
+- Add and manage student records
+- Store student information
+- Generate and manage student barcode identifiers
+- Search student records
+- Archive student records
+- Restore archived students
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📷 Barcode-Based Attendance
+- Scan student barcode
+- Identify the student from the database
+- Validate student information
+- Record attendance
+- Prevent duplicate attendance records
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### 📝 Attendance Management
+- View student attendance records
+- Search attendance records
+- Filter attendance by date
+- Track recorded attendance
 
-## Agentic Development
+### 📢 Announcement Management
+- Create and manage announcements
+- Display announcements to system users
+- Support SMS notification records
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 👥 User Management
+- Create system accounts
+- Assign user roles
+- Administrator access control
+- Regular user access
+- Update user accounts
+- Delete user accounts
 
-```bash
-composer require laravel/boost --dev
+### 📱 SMS Notification
+- Huawei GSM modem integration
+- Send SMS notifications
+- Record SMS activity
+- Monitor SMS logs
 
-php artisan boost:install
-```
+## 🔐 User Roles
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The system currently supports two main user roles:
 
-## Contributing
+### Administrator
+Administrators have access to system management functions,
+including:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Dashboard
+- Student Management
+- Attendance Records
+- Announcements
+- User Management
+- Other administrative functions
 
-## Code of Conduct
+### Regular User
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Regular users have access to standard system functions based
+on the permissions provided by the system.
 
-## Security Vulnerabilities
+## 🔄 System Flow
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```text
+Student ID / Barcode
+        ↓
+   Scan Barcode
+        ↓
+ Find Student Record
+        ↓
+ Validate Student
+        ↓
+ Record Attendance
+        ↓
+ Store Attendance Record
+        ↓
+ Send SMS Notification
+        ↓
+   SMS Log / Record
