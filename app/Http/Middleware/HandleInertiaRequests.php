@@ -31,12 +31,19 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+
             'auth' => [
                 'user' => $request->user(),
             ],
-            // ITO ANG INILAGAY NATIN: Pinapahintulutan na ang Laravel na magpasa ng mensahe sa React
+
             'flash' => [
-                'message' => $request->session()->get('message'),
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'student' => fn () => $request->session()->get('student'),
+                'real_student_id' => fn () => $request->session()->get('real_student_id'),
+                'attendanceRecorded' => fn () => $request->session()->get('attendanceRecorded', false),
+                'smsSent' => fn () => $request->session()->get('smsSent', false),
+                'alreadyScanned' => fn () => $request->session()->get('alreadyScanned', false),
             ],
         ];
     }

@@ -154,8 +154,8 @@
             📢 Add Event / Announcement
         </a>
 
-        <a href="/students">🎓 Student List Record</a>
-        <a href="/attendance">📝 Student Attendance Log</a>
+        <a href="/studentlist">🎓 Student List Record</a>
+       <a href="/student-attendance">📝 Student Attendance Log</a>
         <a href="/grades">📊 Student Grade Report</a>
         <a href="/users">👤 User Management</a>
         <a href="/logout">🚪 Log Out</a>

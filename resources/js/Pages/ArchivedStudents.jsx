@@ -1,0 +1,246 @@
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head, Link, router } from '@inertiajs/react';
+
+export default function ArchivedStudents({ students = [] }) {
+    const getFullName = (student) => {
+        return [
+            student.first_name,
+            student.middle_name,
+            student.last_name,
+        ]
+            .filter(Boolean)
+            .join(' ');
+    };
+
+    const formatDate = (date) => {
+        if (!date) {
+            return 'N/A';
+        }
+
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return date;
+        }
+
+        return parsedDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
+    const handleRestore = (student) => {
+        if (
+            !confirm(
+                `Restore ${getFullName(student)} back to the active student list?`
+            )
+        ) {
+            return;
+        }
+
+        router.patch(
+            `/studentlist/${student.id}/restore`,
+            {},
+            {
+                preserveScroll: true,
+            }
+        );
+    };
+
+    return (
+        <AuthenticatedLayout header={null}>
+            <Head title="Archived Students" />
+
+            <div className="min-h-screen bg-slate-100">
+
+                {/* BACK BUTTON */}
+                <div className="mx-auto w-full max-w-[1500px] px-4 pt-4">
+                    <Link
+                        href="/studentlist"
+                        className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-6 py-3 text-sm font-black text-white shadow-md transition hover:bg-blue-800"
+                    >
+                        ← Back to Student List
+                    </Link>
+                </div>
+
+                {/* HEADER */}
+                <div className="mx-auto w-full max-w-[1500px] px-4 pt-4">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 shadow-xl">
+
+                        <div className="absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
+                        <div className="absolute -right-24 bottom-[-80px] h-64 w-64 rounded-full bg-white/5" />
+
+                        <div className="relative p-6 md:p-8">
+                            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+
+                                <div>
+                                    <div className="flex items-center gap-4">
+
+                                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-3xl">
+                                            📦
+                                        </div>
+
+                                        <div>
+                                            <h1 className="text-3xl font-black text-white">
+                                                Archived Students
+                                            </h1>
+
+                                            <p className="text-yellow-300">
+                                                Sulu College of Technology Inc.
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                    <p className="mt-4 text-slate-200">
+                                        Archived student records can be restored back to the active student list.
+                                    </p>
+                                </div>
+
+                                <div className="rounded-2xl bg-white/10 p-6">
+                                    <p className="text-sm text-slate-200">
+                                        Total Archived
+                                    </p>
+
+                                    <h2 className="text-4xl font-black text-white">
+                                        {students.length}
+                                    </h2>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* MAIN CONTENT */}
+                <div className="mx-auto w-full max-w-[1500px] px-4 pb-10 pt-6">
+
+                    <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+
+                        {/* TABLE HEADER */}
+                        <div className="border-b border-slate-200 p-5">
+                            <h2 className="text-lg font-bold text-slate-800">
+                                Archived Student Records
+                            </h2>
+
+                            <p className="mt-1 text-sm text-slate-500">
+                                These students are archived through soft delete and can still be restored.
+                            </p>
+                        </div>
+
+                        {/* TABLE */}
+                        <div className="overflow-x-auto">
+
+                            <table className="min-w-full">
+
+                                <thead className="bg-slate-100">
+                                    <tr>
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            #
+                                        </th>
+
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Student ID
+                                        </th>
+
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Full Name
+                                        </th>
+
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Course
+                                        </th>
+
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Year Level
+                                        </th>
+
+                                        <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Archived Date
+                                        </th>
+
+                                        <th className="px-5 py-4 text-center text-xs font-extrabold uppercase tracking-wider text-slate-600">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {students.length === 0 ? (
+                                        <tr>
+                                            <td
+                                                colSpan="7"
+                                                className="py-16 text-center text-slate-500"
+                                            >
+                                                <div className="text-4xl">
+                                                    📦
+                                                </div>
+
+                                                <p className="mt-3 font-bold">
+                                                    No archived student records found.
+                                                </p>
+
+                                                <p className="mt-1 text-sm">
+                                                    Archived students will appear here.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        students.map((student, index) => (
+                                            <tr
+                                                key={student.id}
+                                                className="border-b border-slate-200 transition hover:bg-slate-50"
+                                            >
+                                                <td className="px-5 py-4 text-slate-600">
+                                                    {index + 1}
+                                                </td>
+
+                                                <td className="px-5 py-4 font-bold text-blue-700">
+                                                    {student.student_id}
+                                                </td>
+
+                                                <td className="px-5 py-4 font-bold text-slate-900">
+                                                    {getFullName(student)}
+                                                </td>
+
+                                                <td className="px-5 py-4 text-slate-700">
+                                                    {student.course || 'N/A'}
+                                                </td>
+
+                                                <td className="px-5 py-4 text-slate-700">
+                                                    {student.year_level || 'N/A'}
+                                                </td>
+
+                                                <td className="px-5 py-4 text-slate-700">
+                                                    {formatDate(student.deleted_at)}
+                                                </td>
+
+                                                <td className="px-5 py-4 text-center">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleRestore(student)
+                                                        }
+                                                        className="rounded-xl bg-green-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-green-700"
+                                                    >
+                                                        ↩ Restore
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </AuthenticatedLayout>
+    );
+}

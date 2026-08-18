@@ -3,23 +3,30 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Tatanungin ka ng terminal para sa email at password nang live at ligtas
+        $email = $this->command->ask('I-type ang iyong Admin Email');
+        $password = $this->command->secret('I-type ang iyong Admin Password');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (!$email || !$password) {
+            $this->command->error('Bawal ang walang laman na email o password!');
+            return;
+        }
+
+        User::updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => 'System Administrator',
+                'password' => Hash::make($password), 
+            ]
+        );
+
+        $this->command->info('Ligtas na nagawa ang iyong Admin account!');
     }
 }

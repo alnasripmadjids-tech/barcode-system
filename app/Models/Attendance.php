@@ -8,12 +8,19 @@ class Attendance extends Model
 {
     protected $fillable = [
         'student_id',
-        'date',
-        'time_in'
-        'time_out'
+        'class_schedule_id',
+        'attendance_date',
+        'time_in',
+        'status',
     ];
-    public fuction student()
+
+    public function student()
     {
-  return $this->belongsTo(Student::class);
-  }      
+        return $this->belongsTo(Student::class, 'student_id', 'student_id');
+    }
+
+    public function classSchedule()
+    {
+        return $this->belongsTo(ClassSchedule::class);
+    }
 }

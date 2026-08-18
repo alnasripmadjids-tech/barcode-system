@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('announcements', function (Blueprint $table) {
+            $table->text('message')->after('id');
+            $table->unsignedInteger('recipients_count')->default(0)->after('message');
+            $table->string('status')->default('pending')->after('recipients_count');
+            $table->timestamp('sent_at')->nullable()->after('status');
+            $table->foreignId('created_by')
+                ->nullable()
+                ->after('sent_at')
+                ->constrained('users')
+                ->nullOnDelete();
         });
     }
 
@@ -22,6 +29,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('announcements');
+        Schema::table('announcements', function (Blueprint $table) {
+            $table->dropForeign(['created_by']);
+            $table->dropColumn([
+                'message',
+                'recipients_count',
+                'status',
+                'sent_at',
+                'created_by',
+            ]);
+        });
     }
 };

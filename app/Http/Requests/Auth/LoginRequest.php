@@ -42,11 +42,26 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt(
+            $this->only('email', 'password'),
+            $this->boolean('remember')
+        )) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        /*
+         * Only administrators are allowed to access
+         * the System Administrator Portal.
+         */
+        if (Auth::user()->role !== 'admin') {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Wala kang administrator access.',
             ]);
         }
 
@@ -81,6 +96,9 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(
+            Str::lower($this->string('email')) . '|' . $this->ip()
+        );
     }
 }
+
